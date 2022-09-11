@@ -22,7 +22,7 @@ public class DeleteInstructorDetailDemo {
         Session session = sessionFactory.getCurrentSession();
 
         try {
-            int id = 3;
+            int id = 4;
             session.beginTransaction();
             InstructorDetail instructorDetail = session.get(InstructorDetail.class, id);
 
@@ -30,7 +30,12 @@ public class DeleteInstructorDetailDemo {
                 System.out.println("Found instructor detail: " + instructorDetail);
                 System.out.println("Related instructor: " + instructorDetail.getInstructor());
 
-                System.out.println("Deleting instructor detail along with instructor...");
+                System.out.println("Deleting instructor detail...");
+
+                // remove the associated object reference
+                // break bi-directional link
+                instructorDetail.getInstructor().setInstructorDetail(null);
+
                 session.delete(instructorDetail);
                 System.out.println("Done!");
             } else {
