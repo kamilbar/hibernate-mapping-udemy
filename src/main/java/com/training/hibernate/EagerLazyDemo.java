@@ -27,8 +27,13 @@ public class EagerLazyDemo {
             session.beginTransaction();
             Instructor instructor = session.get(Instructor.class, id);
             System.out.println("Luv2Code Instructor: " + instructor);
-            System.out.println("Luv2Code Courses: " + instructor.getCourses());
+            // this line would fix the lazy loading issue below as we would load data while session is still open
+            // System.out.println(instructor.getCourses());
             session.getTransaction().commit();
+            session.close();
+            System.out.println("\nLuv2Code: The session is now closed\n");
+            // code below should fail (for LAZY fetch type) as we close the session in line above
+            System.out.println("Luv2Code Courses: " + instructor.getCourses());
             System.out.println("Luv2Code Done!");
 
         } finally {
