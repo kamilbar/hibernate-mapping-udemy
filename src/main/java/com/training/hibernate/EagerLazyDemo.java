@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 
-public class GetInstructorCoursesDemo {
+public class EagerLazyDemo {
 
     public static void main(String[] args) {
 
@@ -26,10 +26,11 @@ public class GetInstructorCoursesDemo {
 
             session.beginTransaction();
             Instructor instructor = session.get(Instructor.class, id);
-            System.out.println("Instructor: " + instructor);
-            System.out.println(instructor.getCourses());
+            System.out.println("Luv2Code Instructor: " + instructor);
+            System.out.println("Luv2Code Courses: " + instructor.getCourses());
             session.getTransaction().commit();
-            System.out.println("Done!");
+            System.out.println("Luv2Code Done!");
+
         } finally {
             session.close();
             sessionFactory.close();

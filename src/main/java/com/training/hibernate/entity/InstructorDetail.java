@@ -1,6 +1,7 @@
 package com.training.hibernate.entity;
 
-import jakarta.persistence.*;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "instructor_detail")
