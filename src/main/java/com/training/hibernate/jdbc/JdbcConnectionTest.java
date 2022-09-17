@@ -1,4 +1,4 @@
-package com.training.hibernate;
+package com.training.hibernate.jdbc;
 
 import com.mysql.cj.jdbc.JdbcConnection;
 

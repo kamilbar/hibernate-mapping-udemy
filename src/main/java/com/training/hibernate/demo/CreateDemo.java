@@ -1,4 +1,4 @@
-package com.training.hibernate;
+package com.training.hibernate.demo;
 
 import com.training.hibernate.entity.Course;
 import com.training.hibernate.entity.Instructor;
@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 
-public class CreateCoursesDemo {
+public class CreateDemo {
 
     public static void main(String[] args) {
 
@@ -22,17 +22,15 @@ public class CreateCoursesDemo {
 
         Session session = sessionFactory.getCurrentSession();
         try {
+            Instructor instructor = new Instructor("Jan", "Nowak", "jannowak@mail.com");
+            InstructorDetail instructorDetail = new InstructorDetail("jannowak.youtube.com", "fishing");
             Course course = new Course("Java course");
-            Course course2 = new Course("Guitar course");
-            int id = 1;
 
+            instructor.setInstructorDetail(instructorDetail);
+
+            System.out.println("Saving instructor: " + instructor);
             session.beginTransaction();
-            Instructor instructor = session.get(Instructor.class, id);
-            instructor.addCourse(course);
-            instructor.addCourse(course2);
-
-            session.save(course);
-            session.save(course2);
+            session.save(instructor);
 
             session.getTransaction().commit();
             System.out.println("Done!");

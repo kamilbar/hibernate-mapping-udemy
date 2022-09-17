@@ -1,4 +1,4 @@
-package com.training.hibernate;
+package com.training.hibernate.demo;
 
 import com.training.hibernate.entity.Course;
 import com.training.hibernate.entity.Instructor;
@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 
-public class GetInstructorCoursesDemo {
+public class EagerLazyDemo {
 
     public static void main(String[] args) {
 
@@ -26,10 +26,16 @@ public class GetInstructorCoursesDemo {
 
             session.beginTransaction();
             Instructor instructor = session.get(Instructor.class, id);
-            System.out.println("Instructor: " + instructor);
-            System.out.println(instructor.getCourses());
+            System.out.println("Luv2Code Instructor: " + instructor);
+            // this line would fix the lazy loading issue below as we would load data while session is still open
+            // System.out.println(instructor.getCourses());
             session.getTransaction().commit();
-            System.out.println("Done!");
+            session.close();
+            System.out.println("\nLuv2Code: The session is now closed\n");
+            // code below should fail (for LAZY fetch type) as we close the session in line above
+            System.out.println("Luv2Code Courses: " + instructor.getCourses());
+            System.out.println("Luv2Code Done!");
+
         } finally {
             session.close();
             sessionFactory.close();
