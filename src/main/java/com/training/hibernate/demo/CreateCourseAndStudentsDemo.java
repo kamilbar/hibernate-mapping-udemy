@@ -1,18 +1,13 @@
 package com.training.hibernate.demo;
 
-import com.training.hibernate.entity.Course;
-import com.training.hibernate.entity.Instructor;
-import com.training.hibernate.entity.InstructorDetail;
-import com.training.hibernate.entity.Review;
+import com.training.hibernate.entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-
-public class CreateCoursesAndReviewsDemo {
+public class CreateCourseAndStudentsDemo {
 
     public static void main(String[] args) {
-
 
         SessionFactory sessionFactory = new Configuration()
                 .configure("hibernate.cfg.xml")
@@ -20,25 +15,31 @@ public class CreateCoursesAndReviewsDemo {
                 .addAnnotatedClass(InstructorDetail.class)
                 .addAnnotatedClass(Course.class)
                 .addAnnotatedClass(Review.class)
+                .addAnnotatedClass(Student.class)
                 .buildSessionFactory();
 
         Session session = sessionFactory.getCurrentSession();
+
         try {
-            Course course = new Course("Hibernate course");
-
-            Review review = new Review("Good course!");
-            Review review2 = new Review("I've learnt a lot!");
-            Review review3 = new Review("Good structure of the course");
-
-            course.addReview(review);
-            course.addReview(review2);
-            course.addReview(review3);
-
+            Course course = new Course("Hibernate Course");
             session.beginTransaction();
             session.save(course);
+            System.out.println("Saved course: " + course);
+
+            Student student1 = new Student("John", "Doe", "johndoe@luv2code.com");
+            Student student2 = new Student("Mary", "James", "mary@luv2code.com");
+            course.addStudent(student1);
+            course.addStudent(student2);
+
+            System.out.println("\nSaving students...");
+            session.save(student1);
+            session.save(student2);
+            System.out.println("\nSaved students: " + course.getStudents());
             session.getTransaction().commit();
 
             System.out.println("Done!");
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             session.close();
             sessionFactory.close();

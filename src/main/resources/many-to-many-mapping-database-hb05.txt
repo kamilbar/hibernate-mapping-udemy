@@ -1,0 +1,83 @@
+drop schema if exists `hb-05-many-to-many`;
+create SCHEMA `hb-05-many-to-many`;
+use `hb-05-many-to-many`;
+
+drop table IF EXISTS `instructor_detail`;
+
+create table `instructor_detail` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `youtube_channel` VARCHAR(128) default null,
+    `hobby` varchar(45) default null,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB AUTO_INCREMENT=1 default charset=latin1;
+
+drop table if exists `instructor`;
+create table `instructor`(
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `first_name` VARCHAR(45) default null,
+    `last_name` varchar(45) default null,
+    `email` varchar(45) default null,
+    `instructor_detail_id` int(11) default null,
+    primary key (id),
+    key `FK_DETAIL_idx` (`instructor_detail_id`),
+    CONSTRAINT `FK_DETAIL` FOREIGN KEY (`instructor_detail_id`)
+    REFERENCES `instructor_detail` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+)engine=InnoDB auto_increment=1 default charset=latin1;
+
+drop table if exists `course`;
+create TABLE `course`(
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `title` varchar(128) default null,
+    `instructor_id` int(11) default null,
+    UNIQUE KEY `title_unique` (title),
+    PRIMARY KEY (id),
+
+    key `FK_INSTRUCTOR_idx`(`instructor_id`),
+    constraint `FK_INSTRUCTOR`
+    foreign key (`instructor_id`)
+    references instructor (id)
+
+)ENGINE=InnoDb AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+drop table if exists `review`;
+create table `review`(
+    `id` int(11) auto_increment NOT NULL,
+    `comment` varchar(256) default null,
+    `course_id` int(11) default null,
+    PRIMARY KEY (id),
+
+    KEY `FK_COURSE_ID_idx` (course_id),
+    CONSTRAINT `FK_COURSE`
+    FOREIGN KEY (course_id)
+    REFERENCES `course` (id)
+)engine=InnoDb AUTO_INCREMENT=1 default CHARSET=latin1;
+
+drop table if exists `student`;
+create table `student`(
+    `id` int(11) not null auto_increment,
+    `first_name` varchar(45) default null,
+    `last_name` varchar(45) default null,
+    `email` varchar(45) default null,
+    primary key (id)
+
+)engine=InnoDB AUTO_INCREMENT=1 default charset=latin1;
+
+drop table if exists `course_student`;
+create table `course_student`(
+    `course_id` int(11) not null,
+    `student_id` int(11) not null,
+
+    PRIMARY KEY (course_id, student_id),
+
+    KEY `FK_STUDENT_idx`(`student_id`),
+
+    CONSTRAINT `FK_COURSE_05` FOREIGN KEY (`course_id`)
+    REFERENCES `course` (`id`)
+    on delete no action on update no action ,
+
+    CONSTRAINT `FK_STUDENT` FOREIGN KEY (`student_id`)
+    REFERENCES `student` (`id`)
+    on delete no action  on update no ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 default CHARSET=latin1;
+
+SET FOREIGN_KEY_CHECKS = 1;

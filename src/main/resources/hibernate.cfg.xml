@@ -4,7 +4,7 @@
         "http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hb-04-one-to-many?serverTimezone=Europe/Warsaw</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hb-05-many-to-many?serverTimezone=Europe/Warsaw</property>
         <property name="hibernate.connection.username">hbstudent</property>
         <property name="hibernate.connection.password">hbstudent</property>
         <property name="hibernate.show_sql">true</property>
